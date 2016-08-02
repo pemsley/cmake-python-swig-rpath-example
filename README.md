@@ -6,13 +6,18 @@ We are encouraged (aren't we?) to use modern tools appropriate for the job - and
 
 How should we do that exactly?
 
+Err...
+
 Now try it using RPATH.
 
-Now try it on a Mac... Hmm...
+Now try it on a Mac... 
+
+
+Hmm...
 
 I did some googling and reading and the answer to that was utterly opaque to me.
 
-So here's a project simply designed to the the project that I would have like to have found 
+So here's a project simply designed to be the project that I would have liked to have found 
 several weeks ago.
 
 Some interesting reading:
