@@ -7,13 +7,28 @@ INCLUDE(${SWIG_USE_FILE})
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/src)
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 
+# we want to make a shared library libtriv_stats.dylib that 
+# is compiled from sources stats.cc
+#
 ADD_LIBRARY(triv_stats SHARED stats.cc)
 
+# libtriv_stats.dylib depends on the maths library.
+#
 TARGET_LINK_LIBRARIES(triv_stats "m")
 
+# stats.i include C++ header
+#
 SET_SOURCE_FILES_PROPERTIES(stats.i PROPERTIES CPLUSPLUS ON)
+
+# stats.i make the python module simple_module (see how
+# simple_module is used in test.py)
+#
 SWIG_ADD_MODULE(simple_module python stats.i)
 
+# the python module simple_module wraps the class and function
+# of stats.hh/.cc - and the library for that compiled code is
+# libtriv_stats.dylib
+#
 SWIG_LINK_LIBRARIES(simple_module triv_stats ${PYTHON_LIBRARIES})
 
 if (APPLE) 
@@ -22,16 +37,18 @@ if (APPLE)
 
    # INSTALL_NAME_DIR overrides MACOSX_RPATH.  Try not to do that.
 
-
    # this sets the install_name of libtriv_stats.dylib as @rpath/libtriv_stats.dylib
    SET_TARGET_PROPERTIES(triv_stats PROPERTIES MACOSX_RPATH TRUE)
    SET_TARGET_PROPERTIES(triv_stats PROPERTIES CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
    
+   # Use rpath for _simple_module.so
    SET_TARGET_PROPERTIES(_simple_module PROPERTIES MACOSX_RPATH TRUE)
 
-   SET_TARGET_PROPERTIES(_simple_module PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
+   # append directories in the linker search path and outside the project to the INSTALL_RPATH
+   SET_TARGET_PROPERTIES(_simple_module PROPERTIES CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
+   # this is where libtriv_stats.dylib is installed relative to where _simple_module.so is installed
    SET_TARGET_PROPERTIES(_simple_module PROPERTIES INSTALL_RPATH "@loader_path/../../..")
 
 else()
