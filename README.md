@@ -25,3 +25,6 @@ Some interesting reading:
 https://cmake.org/Wiki/CMake_RPATH_handling
 
 https://blog.kitware.com/upcoming-in-cmake-2-8-12-osx-rpath-support/
+ 
+http://stackoverflow.com/questions/33991581/install-name-tool-to-update-a-executable-to-search-for-dylib-in-mac-os-x
+
